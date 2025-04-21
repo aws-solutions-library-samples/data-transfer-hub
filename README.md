@@ -15,8 +15,6 @@ Cloud OSS, Tencent COS, Qiniu Kodo, and S3 Compatible storage) to Amazon S3.
 - Transfer container images from public container registries (e.g., Docker Hub, Google
 gcr.io, Red Hat Quay.io) to Amazon ECR.
 
-![](docs/images/homepage.png)
-
 You will be responsible for your compliance with all applicable laws in respect of your data transfer tasks.
 
 ## Features
@@ -44,33 +42,103 @@ You will be responsible for your compliance with all applicable laws in respect 
 
 ## Architecture
 
-![](architecture.jpg)
+![](architecture.png)
 
-A web portal is launched in the customer's AWS account. Through the web portal, customers can create data transfer 
-tasks and manage them in a centralized place. When the user create a data transfer task through the web portal, the backend
-invokes the CloudFormation API to deploy another stack to provision all resources to start data transfer. The solution 
-only provision resources when needed. You can also choose to deploy the data transfer plugin independently. 
+1.	Amazon Simple Storage Service (Amazon S3) stores static web assets (such as the frontend UI), which are made available through Amazon CloudFront.
+2.	AWS AppSync GraphQL provides backend APIs.
+3.	Users are authenticated by either Amazon Cognito user pools (in AWS Standard Regions) or by an OpenID connect provider (in AWS China Regions) such as Authing or Auth0.
+4.	AWS AppSync runs AWS Lambda to call backend APIs.
+5.	Lambda starts an AWS Step Functions workflow that uses AWS CloudFormation to start or stop or delete Amazon Elastic Container Registry (Amazon ECR) or the Amazon S3 plugin template.
+6.	A centralized S3 bucket hosts plugin templates.
+7.	The solution also provisions an Amazon Elastic Container Service (Amazon ECS) cluster that runs the container images used by the plugin template, and the container images are hosted in Amazon ECR.
+8.	Amazon DynamoDB stores data transfer task information. 
+
 
 Available Plugins:
 * [S3 Plugin](./docs/S3_PLUGIN.md)
 * [ECR Plugin](./docs/ECR_PLUGIN.md)
 
-## Solution Deployment
+
+## Cost
+
+You are responsible for the cost of the AWS services used while running this Guidance, which can vary based on whether you are transferring Amazon S3 objects or Amazon ECR images.
+The Guidance automatically deploys an additional Amazon CloudFront Distribution and an Amazon S3 bucket for storing the static website assets in your account. You are responsible for the incurred variable charges from these services. For full details, refer to the pricing webpage for each AWS service you will be using in this Guidance.
+The following examples demonstrate how to estimate the cost. Two example estimates are for transferring Amazon S3 objects, and one is for transferring ECR images.
+
+### Cost of an Amazon S3 transfer task
+
+For an Amazon S3 transfer task, the cost can vary based on the total number of ﬁles and the average ﬁle size.
+ 
+Example 1: As of this revision, transfer 1 TB of S3 ﬁles from AWS Oregon Region (us-west-2) to AWS Beijing Region (cn-north-1), and the average ﬁle size is 50MB.
+Total ﬁles: ~20,480
+
+Average speed per Amazon EC2 instance: ~1GB/min Total Amazon EC2 instance hours: ~17 hours
+
+| AWS service  | Dimensions | Cost [USD] |
+| ----------- | ------------ | ------------ |
+| Amazon EC2 | $0.0084 per hour (t4g.micro) | $0.14 |
+|Amazon S3 |	~ 12 GET requests + 10 PUT request per ﬁle GET: $0.0004 per 1000 request PUT: $0.005 per 1000 request | $0.12 |
+| Amazon DynamoDB |	~2 write requests per ﬁle $1.25 per million write |	$0.05 |
+| Amazon SQS |	~2 request per ﬁle $0.40 per million requests |	$0.01 |
+| Data Transfer Out	| $0.09 per GB	| $92.16 |
+| Others (For example, CloudWatch, Secrets Manager, etc.) | | ~ $1 |
+| |	TOTAL |	~ $94.48 |
+
+### Cost of an Amazon ECR transfer task
+
+For an Amazon ECR transfer task, the cost can vary based on network speed and total size of ECR images.
+Example 2: As of this revision, transfer 27 Amazon ECR images (~3 GB in total size) from AWS Ireland Region (eu-west-1) to AWS Beijing Region (cn-north-1). The total runtime is about 6 minutes.
+
+| AWS service  | Dimensions | Cost [USD] |
+| ----------- | ------------ | ------------ |
+| AWS Lambda | $0.0000004 per 100ms | $0.000072(35221.95 ms) |
+| AWS Step Functions |	$0.000025 per state transition (~ 60 state transitions per run in this case) |	$0.0015 |
+| Fargate |	$0.04048 per vCPU per hour $0.004445 per GB per hour (0.5 vCPU 1GB Memory) | $0.015 (~ 2200s) |
+| Data Transfer Out	| $0.09 per GB | $0.27 |
+| Others (for example, CloudWatch, Secrets Manager, etc.) | Almost 0 |	$0 |
+| | TOTAL |	~ $0.287 |
+
+## Prerequisites
+
+Please install the following dependencies on your local machine.
+
+* nodejs 12+
+* npm 6+
+* Docker
+
+You need CDK bootstrap v4+ to deploy this application. To upgrade to latest CDK bootstrap version. Run
+```
+cdk bootstrap --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess
+```
+
+Please make sure Docker is running on your local machine.
+
+## Deployment Steps via AWS CDK
 
 > **Time to deploy:** Approximately 15 minutes.
 
-Refer to this [guide](docs/DeployInChinaWithAuthing_EN.md) if you want deploy this solution in AWS China Regions.
+### Build the Web Portal assets
 
-### Launch CloudFormation Stack
+The Web Portal is being built with React and [AWS Amplify](https://docs.amplify.aws/) framework.
+```
+cd source/portal
+npm install
+npm run build
+```
+The output assets will be located in `source/portal/build` directory.
 
-Follow the step-by-step instructions to configure and deploy the Data Transfer Hub into your account.
+### CDK Synth & CDK Deploy
+_Note_: Please make sure Docker is running.
 
-1. Make sure you have sign in AWS Console already.
-1. Click the following button to launch the CloudFormation Stack in your account.
+```
+cd ../constructs
+npm install 
+npm run build
+npx cdk synth
+npx cdk deploy --parameters AdminEmail=<your-email-address>
+```
 
-    [![Launch Stack](./launch-stack.png)](https://console.aws.amazon.com/cloudformation/home#/stacks/create/template?stackName=DataTransferHub&templateURL=https://solutions-reference.s3.amazonaws.com/data-transfer-hub/latest/DataTransferHub-cognito.template)
-1. Input **AdminEmail** parameter. An email containing the temporary password will be sent to this email. You need to this email to sign in.
-1. Click **Next** and select **Create Stack**.
+The only parameter you should specify is the default user's email address. It will serve as the username when login into the web portal.
 
 ### Login into the Data Transfer Hub Portal
 
@@ -89,6 +157,36 @@ An email containing the temporary password will be sent to the provided email. N
 
 Create your first data transfer task, For the complete user guide, refer to
 [User Guide](docs/UserManual.md) for more information.
+
+## Uninstall the Guidance
+
+You can uninstall the Data Transfer Hub Guidance from the AWS Management Console or by using the AWS Command Line Interface. You must manually stop any active transfer tasks before uninstalling.
+
+### Using the AWS Management Console
+
+1.	Sign in to the AWS CloudFormation console.
+2.	On the Stacks page, select this Guidance’s installation stack.
+3.	Choose Delete.
+
+### Using AWS Command Line Interface
+
+Determine whether the AWS Command Line Interface (AWS CLI) is available in your environment. For installation instructions, refer to [What Is the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html) in the AWS CLI User Guide. After conﬁrming that the AWS CLI is available, run the following command.
+
+```
+$ aws cloudformation delete-stack --stack-name <installation-stack-name>
+```
+ ### Deleting the Amazon S3 buckets
+
+ This Guidance is conﬁgured to retain the Guidance-created Amazon S3 bucket (for deploying in an opt-in Region) if you decide to delete the AWS CloudFormation stack to prevent accidental data loss. After uninstalling the Guidance, you can manually delete this S3 bucket if you do not need to retain the data. Follow these steps to delete the Amazon S3 bucket.
+1.	Sign in to the Amazon S3 console.
+2.	Choose Buckets from the left navigation pane.
+3.	Locate the <stack-name> S3 buckets.
+4.	Select the S3 bucket and choose Delete.
+
+To delete the S3 bucket using AWS CLI, run the following command:
+```
+$ aws s3 rb s3://<bucket-name> --force
+```
 
 ## FAQ
 
