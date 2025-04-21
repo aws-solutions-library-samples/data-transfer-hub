@@ -1,10 +1,10 @@
 # Data Transfer Hub
 
-_Note_: If you have already deployed this solution, refer to the [User Guide](docs/UserManual.md).
+_Note_: If you have already deployed this Guidance, refer to the [User Guide](docs/UserManual.md).
 
-Data Transfer Hub is a secure, reliable, scalable, and trackable solution offers a unified user experience that 
+Data Transfer Hub is a secure, reliable, scalable, and trackable Guidance offers a unified user experience that 
 allows you to easily create and manage different types of data transfer tasks from different sources to 
-Amazon Web Services cloud-native services. You can launch this solution and start to replicate data within a few minutes.
+Amazon Web Services cloud-native services. You can launch this Guidance and start to replicate data within a few minutes.
 
 With Data Transfer Hub, you can perform any of the following tasks:
 - Transfer Amazon S3 objects between AWS China Regions and AWS Regions.
@@ -50,7 +50,7 @@ You will be responsible for your compliance with all applicable laws in respect 
 4.	AWS AppSync runs AWS Lambda to call backend APIs.
 5.	Lambda starts an AWS Step Functions workflow that uses AWS CloudFormation to start or stop or delete Amazon Elastic Container Registry (Amazon ECR) or the Amazon S3 plugin template.
 6.	A centralized S3 bucket hosts plugin templates.
-7.	The solution also provisions an Amazon Elastic Container Service (Amazon ECS) cluster that runs the container images used by the plugin template, and the container images are hosted in Amazon ECR.
+7.	The Guidance also provisions an Amazon Elastic Container Service (Amazon ECS) cluster that runs the container images used by the plugin template, and the container images are hosted in Amazon ECR.
 8.	Amazon DynamoDB stores data transfer task information. 
 
 
@@ -190,20 +190,20 @@ $ aws s3 rb s3://<bucket-name> --force
 
 ## FAQ
 
-**Q. Which are the supported Regions of this solution?**</br>
+**Q. Which are the supported Regions of this Guidance?**</br>
 Please refer to [Supported Regions](https://awslabs.github.io/data-transfer-hub/en/plan-deployment/regions/).
 
-**Q. If I want to copy data from U.S. Regions to China Regions, where should I deploy the solution?**</br>
-You can either deploy the solution in U.S. Regions or deploy the solution in China Regions. 
+**Q. If I want to copy data from U.S. Regions to China Regions, where should I deploy the Guidance?**</br>
+You can either deploy the Guidance in U.S. Regions or deploy the Guidance in China Regions. 
 
-**Q. Can I deploy the solution in AWS Account A, and transfer Amazon S3 objects from Account B to Account C?**</br>
+**Q. Can I deploy the Guidance in AWS Account A, and transfer Amazon S3 objects from Account B to Account C?**</br>
 Yes. In this case, you will need to store the [AccessKeyID and SecretAccessKey](https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys) 
 for Account B and C in the [Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html) 
 of Account A.
 
 ## More Resources
 
-* [How to customize this solution and build your own distributable?](./docs/build-your-own-distributable.md)
-* [Deploy this solution via AWS CDK](./docs/deploy-via-cdk.md)
+* [How to customize this Guidance and build your own distributable?](./docs/build-your-own-distributable.md)
+* [Deploy this Guidance via AWS CDK](./docs/deploy-via-cdk.md)
 * [Data Transfer Hub S3 Plugin](./docs/S3_PLUGIN.md)
 * [Data Transfer Hub ECR Plugin](./docs/ECR_PLUGIN.md)
