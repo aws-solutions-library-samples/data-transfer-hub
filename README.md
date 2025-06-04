@@ -13,7 +13,7 @@ With Data Transfer Hub, you can perform any of the following tasks:
 Cloud OSS, Tencent COS, Qiniu Kodo, and S3 Compatible storage) to Amazon S3.
 - Transfer Amazon ECR images between AWS China Regions and AWS Regions.
 - Transfer container images from public container registries (e.g., Docker Hub, Google
-gcr.io, Red Hat Quay.io) to Amazon ECR.
+gcr.io, Red Hat Quay.io) or from local development environment to Amazon ECR.
 
 You will be responsible for your compliance with all applicable laws in respect of your data transfer tasks.
 
