@@ -1,8 +1,8 @@
-# Data Transfer Hub
+# Data Transfer Hub for Amazon ECR and S3 on AWS
 
 _Note_: If you have already deployed this Guidance, refer to the [User Guide](docs/UserManual.md).
 
-Data Transfer Hub is a secure, reliable, scalable, and trackable Guidance offers a unified user experience that 
+Data Transfer Hub for Amazon ECR and S3 is a secure, reliable, scalable, and trackable Guidance offers a unified user experience that 
 allows you to easily create and manage different types of data transfer tasks from different sources to 
 Amazon Web Services cloud-native services. You can launch this Guidance and start to replicate data within a few minutes.
 
