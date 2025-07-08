@@ -42,7 +42,8 @@ You will be responsible for your compliance with all applicable laws in respect 
 
 ## Architecture
 
-![](architecture.png)
+![](assets/architecture.png)
+*Figure 1. Guidance Reference Architecture*
 
 1.	Amazon Simple Storage Service (Amazon S3) stores static web assets (such as the frontend UI), which are made available through Amazon CloudFront.
 2.	AWS AppSync GraphQL provides backend APIs.
