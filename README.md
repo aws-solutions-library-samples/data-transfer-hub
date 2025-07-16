@@ -112,7 +112,7 @@ The Amazon ECR plugin runs the following workflows:
 
 ## Amazon ECR PUSH Method
 
-![ecr-push-mechanism-architecture](assets/ecr-arch-global.png)
+![ecr-push-mechanism-architecture](assets/DTH_Push_Method.png)
 *Data Transfer Hub Amazon ECR PUSH Method plugin architecture*
 
 The Amazon ECR PUSH Mechanism plugin runs the following workflows:
