@@ -39,6 +39,12 @@ You will be responsible for your compliance with all applicable laws in respect 
     - [x] Copy all images or only selected Images
     - [x] Support One-time images copy
     - [x] Support Incremental images copy
+- [x] Bulk Migration from on-premise to ECR (PUSH Meethod)
+    - [x] Supports multiple implementation methods (Python script, Terraform, Ansible, Puppet etc)
+    - [x] Creation of Repositories if it’s not already present in ECR, verification of duplicate Repositories & images
+    - [x] Preserve existing image tags, labels and metadata
+    - [x] Handles authentication, network transfer, overwrite protection and validation of migrated images
+    - [x] Seamless integration with other AWS container services like ECS, EKS and Fargate
 
 ## Architecture
 
@@ -104,10 +110,10 @@ The Amazon ECR plugin runs the following workflows:
 5.	Each task uses [skopeo](https://github.com/containers/skopeo) to copy the images into the target ECR.
 6.	After the copy completes, the status (either success or fail) is logged into DynamoDB for tracking purpose.
 
-## Amazon ECR PUSH Mechanism
+## Amazon ECR PUSH Method
 
-![ecr-push-mechanism-architecture](assets/ecr-push-mechanism-architecture.png)
-*Data Transfer Hub Amazon ECR PUSH Mechanism plugin architecture*
+![ecr-push-mechanism-architecture](assets/ecr-arch-global.png)
+*Data Transfer Hub Amazon ECR PUSH Method plugin architecture*
 
 The Amazon ECR PUSH Mechanism plugin runs the following workflows:
 
