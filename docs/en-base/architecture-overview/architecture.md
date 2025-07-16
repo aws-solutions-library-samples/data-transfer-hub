@@ -61,6 +61,20 @@ The Amazon ECR plugin runs the following workflows:
 6.	After the copy completes, the status (either success or fail) is logged into DynamoDB for tracking purpose.
 
 
+## Amazon ECR PUSH Method
+
+![ecr-architecture](../images/DTH_Push_Method.png)
+*Data Transfer Hub Amazon ECR PUSH Mechanism plugin architecture*
+
+The Amazon ECR PUSH Mechanism plugin runs the following workflows:
+
+1.	Solution makes an API call to on-prem Jfrog Repository and list all user repos.
+2.	Solution makes a second call to Amazon ECR using credentials configured by AWS CLI and checks if list of on-prem repos exists in ECR, if not creates them.
+3.	Comes back to on-prem repo and tally all docker image tags in all repos.
+4.	Checksum verification of tags in ECR, if tag exist in ECR and checksum matches, it is left alone.
+5.	Migrates all docker images in bulk to ECR.
+6.	Solution can be repeated.
+
 
 [s3]:https://aws.amazon.com/s3/
 [cloudfront]:https://aws.amazon.com/cloudfront/
