@@ -63,10 +63,10 @@ The Amazon ECR plugin runs the following workflows:
 
 ## Amazon ECR PUSH Method
 
-![ecr-architecture](../images/DTH_Push_Method.png)
+![ecr-push-method-architecture](../images/DTH_Push_Method.png)
 *Data Transfer Hub Amazon ECR PUSH Mechanism plugin architecture*
 
-The Amazon ECR PUSH Mechanism plugin runs the following workflows:
+The Amazon ECR PUSH Method plugin runs the following workflows:
 
 1.	Solution makes an API call to on-prem Jfrog Repository and list all user repos.
 2.	Solution makes a second call to Amazon ECR using credentials configured by AWS CLI and checks if list of on-prem repos exists in ECR, if not creates them.
