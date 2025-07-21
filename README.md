@@ -66,7 +66,7 @@ This solution deploys the Amazon CloudFormation template in your AWS Cloud accou
 
 After deploying the solution, you can use [AWS WAF][waf] to protect CloudFront or AppSync.
 
-!!! note "Important"
+>Note "Important"
     If you deploy this solution in AWS (Beijing) Region operated by Beijing Sinnet Technology Co., Ltd. (Sinnet), or the AWS (Ningxia) Region operated by Ningxia Western Cloud Data Technology Co., Ltd. ( ), you are required to provide a domain with ICP Recordal before you can access the web console.
 
 
@@ -93,8 +93,7 @@ buckets, makes comparisons among objects and determines which objects should be 
 9.  When the JobWorker node identifies a large file (with a default threshold of 1 GB) for the first time, a Multipart Upload task running in Amazon EC2 is initiated. The corresponding UploadId is then conveyed to the AWS Step Functions, which invokes a scheduled recurring task. Every minute, AWS Step Functions verifies the successful transmission of the distributed shards associated with the UploadId across the entire cluster.
 10. If all shards have been transmitted successfully, Amazon EC2 invokes the CompleteMultipartUpload API in Amazon S3 to finalize the consolidation of the shards. Otherwise, any invalid shards are discarded.
 
-!!! note "Note"
-    If an object (or part of an object) transfer failed, the JobWorker releases the message in the queue, and the object is transferred again after the message is visible in the queue (default visibility timeout is set to 15 minutes). If the transfer failed five times, the message is sent to the dead letter queue and a notification alarm is initiated.
+>Note: If an object (or part of an object) transfer failed, the JobWorker releases the message in the queue, and the object is transferred again after the message is visible in the queue (default visibility timeout is set to 15 minutes). If the transfer failed five times, the message is sent to the dead letter queue and a notification alarm is initiated.
 
 ## Amazon ECR plugin
 
@@ -192,7 +191,7 @@ You need CDK bootstrap v4+ to deploy this application. To upgrade to latest CDK 
 cdk bootstrap --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess
 ```
 
-Please make sure Docker is running on your local machine.
+>Note: Please make sure Docker is running on your local machine.
 
 ## Deployment Steps via AWS CDK
 
@@ -209,7 +208,7 @@ npm run build
 The output assets will be located in `source/portal/build` directory.
 
 ### CDK Synth & CDK Deploy
-_Note_: Please make sure Docker is running.
+>Note: Please make sure Docker is running.
 
 ```
 cd ../constructs
