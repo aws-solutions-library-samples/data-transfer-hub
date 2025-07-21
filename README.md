@@ -51,7 +51,7 @@ You will be responsible for your compliance with all applicable laws in respect 
 Deploying this solution with the default parameters builds the following environment in the AWS Cloud.
 
 ![architecture](assets/arch-global.png)
-*Data Transfer Hub architecture*
+*Figure 1: Data Transfer Hub architecture*
 
 This solution deploys the Amazon CloudFormation template in your AWS Cloud account and completes the following settings.
 
@@ -77,7 +77,7 @@ As of this revision, the solution supports two data transfer plugins: an Amazon 
 ## Amazon S3 plugin
 
 ![s3-architecture](assets/s3-arch-global.png)
-*Data Transfer Hub Amazon S3 plugin architecture*
+*Figure 2: Data Transfer Hub Amazon S3 plugin architecture*
 
 The Amazon S3 plugin runs the following workflows:
 
@@ -98,7 +98,7 @@ buckets, makes comparisons among objects and determines which objects should be 
 ## Amazon ECR plugin
 
 ![ecr-architecture](assets/ecr-arch-global.png)
-*Data Transfer Hub Amazon ECR plugin architecture*
+*Figure 3: Data Transfer Hub Amazon ECR plugin architecture*
 
 The Amazon ECR plugin runs the following workflows:
 
@@ -112,7 +112,7 @@ The Amazon ECR plugin runs the following workflows:
 ## Amazon ECR PUSH Method
 
 ![ecr-push-mechanism-architecture](assets/DTH_Push_Method.png)
-*Data Transfer Hub Amazon ECR PUSH Method plugin architecture*
+*Figure 4: Data Transfer Hub Amazon ECR PUSH Method plugin architecture*
 
 The Amazon ECR PUSH Mechanism plugin runs the following workflows:
 
