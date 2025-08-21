@@ -100,7 +100,7 @@ buckets, makes comparisons among objects and determines which objects should be 
 ![ecr-architecture](assets/ecr-arch-global.png)
 *Figure 3: Data Transfer Hub - ECR PULL Method plugin architecture*
 
-The Amazon ECR plugin PULL Mechganism runs the following workflows:
+The Amazon ECR plugin PULL Mechanism runs the following workflows:
 
 1.	An EventBridge rule runs an AWS Step Functions workflow on a regular basis (by default, it runs daily).
 2.	Step Functions workflow invokes AWS Lambda to retrieve the list of images from the source.
@@ -123,19 +123,22 @@ The Amazon ECR PUSH Mechanism runs the following workflows:
 5.	Migrates all Docker images in bulk to ECR.
 6.	Above process can be repeated for other images
 
-[s3]:https://aws.amazon.com/s3/
-[cloudfront]:https://aws.amazon.com/cloudfront/
-[appsync]:https://aws.amazon.com/appsync/
-[cognito]:https://aws.amazon.com/cognito/
-[lambda]:https://aws.amazon.com/lambda/
-[stepfunction]:https://aws.amazon.com/step-functions/
-[cloudformation]:https://aws.amazon.com/cloudformation/
-[ecs]:https://aws.amazon.com/ecs/
-[ecr]:https://aws.amazon.com/ecr/
-[dynamodb]:https://aws.amazon.com/dynamodb/
-[waf]:https://aws.amazon.com/waf/
-[ec2]:https://aws.amazon.com/ec2/
-[sqs]:https://aws.amazon.com/sqs/
+## AWS Services in this guidance
+| **AWS Service** | **Role** | **Description** |
+|-----------------|----------|-----------------|
+|[Amazon S3](https://aws.amazon.com/s3/)|Persistent storage tier||
+|[Amazon CloudFront](https://aws.amazon.com/cloudfront/)|Content delivery network (CDN) that speeds up the distribution of web content||
+|[Amazon AppSync](https://aws.amazon.com/appsync/)|Fully managed Serverless GraphQL API Service for Real-Time Data Queries||
+|[Amazon Cognito](https://aws.amazon.com/cognito/)|User sign-up, sign-in, access control, and brokered AWS service access||
+|[Amazon Lambda](https://aws.amazon.com/lambda/)|Allows to run code without provisioning or managing servers||
+|[Amazon Step Functions](https://aws.amazon.com/step-functions/)|Visual workflow service that helps to use AWS services to build distributed applications, automate and orchestrate processes etc.||
+|[Amazon Cloud Formation](https://aws.amazon.com/cloudformation/)|Infrastructure as code (IaC) service that allows to easily model, provision, and manage AWS and third-party resources||
+|[Amazon Elastic Container Service (ECS)](https://aws.amazon.com/ecs/)|Fully managed container orchestration service that helps you to more efficiently deploy, manage, and scale containerized applications.||
+|[Amazon Elastic Container Registry (ECR)](https://aws.amazon.com/ecr/)|Stores and manages Docker container images for EKS deployments|
+|[Amazon Dynamo DB](https://aws.amazon.com/dynamodb/)|Stores noSQL data for the guidance||
+|[Amazon Web Application Firewall (WAF](https://aws.amazon.com/waf/)|Provides defense against common Internet service attacks||
+|[Amazon Elastic Cloud Compute (EC2)](https://aws.amazon.com/ec2/)|Provides core compute capabilities for running workloads||
+|[Amazon Simple Queue Service (SQS)](https://aws.amazon.com/sqs/)|Provides message queing and delivery service||
 
 
 ## Cost
