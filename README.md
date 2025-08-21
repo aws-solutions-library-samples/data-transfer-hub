@@ -2,9 +2,9 @@
 
 _Note_: If you have already deployed this Guidance, refer to the [User Guide](docs/UserManual.md).
 
-Data Transfer Hub for Amazon ECR and S3 is a secure, reliable, scalable, and trackable Guidance offers a unified user experience that 
+Data Transfer Hub for Amazon ECR and S3 is a secure, reliable, scalable, and trackable solution that offers a unified user experience that 
 allows you to easily create and manage different types of data transfer tasks from different sources to 
-Amazon Web Services cloud-native services. You can launch this Guidance and start to replicate data within a few minutes.
+Amazon Web Services cloud-native services. You can launch this guidance and start to replicate data within a few minutes.
 
 With Data Transfer Hub, you can perform any of the following tasks:
 - Transfer Amazon S3 objects between AWS China Regions and AWS Regions.
@@ -33,13 +33,13 @@ You will be responsible for your compliance with all applicable laws in respect 
     - [x] Support S3 Events to trigger data transfer
     - [x] Use TCP BBR to improve network performance.
     - [x] Support transfer from Amazon S3 Compatible Storage
-- [x] ECR Plugin
+- [x] ECR Migration Plugin (PULL Method)
     - [x] Amazon ECR images copy between AWS Regions and AWS China Regions
     - [x] Public docker registry to AWS ECR images copy
     - [x] Copy all images or only selected Images
     - [x] Support One-time images copy
     - [x] Support Incremental images copy
-- [x] Bulk Migration from on-premise to ECR (PUSH Meethod)
+- [x] Bulk Migration from on-premise to ECR (PUSH Method)
     - [x] Supports multiple implementation methods (Python script, Terraform, Ansible, Puppet etc)
     - [x] Creation of Repositories if it’s not already present in ECR, verification of duplicate Repositories & images
     - [x] Preserve existing image tags, labels and metadata
@@ -48,31 +48,31 @@ You will be responsible for your compliance with all applicable laws in respect 
 
 ## Architecture
 
-Deploying this solution with the default parameters builds the following environment in the AWS Cloud.
+Deploying this guidance with the default parameters builds the following environment in the AWS Cloud.
 
 ![architecture](assets/arch-global.png)
-*Figure 1: Data Transfer Hub architecture*
+*Figure 1: Data Transfer Hub Reference Architecture*
 
-This solution deploys the Amazon CloudFormation template in your AWS Cloud account and completes the following settings.
+This guidance deploys the Amazon CloudFormation template in your AWS Cloud account and completes the following settings.
 
-1.	The solution’s static web assets (frontend user interface) are stored in [Amazon S3][s3] and made available through [Amazon CloudFront][cloudfront].
+1.	The guidance’s static web assets (frontend user interface) are stored in [Amazon S3][s3] and made available through [Amazon CloudFront][cloudfront].
 2.	The backend APIs are provided via [AWS AppSync][appsync] GraphQL.
 3.	Users are authenticated by either [Amazon Cognito][cognito] User Pool (in AWS Regions) or by an OpenID connect provider (in AWS China Regions) such as [Authing](https://www.authing.cn/), [Auth0](https://auth0.com/), etc.
 4.	AWS AppSync runs [AWS Lambda][lambda] to call backend APIs.
 5.	Lambda starts an [AWS Step Functions][stepfunction] workflow that uses [AWS CloudFormation][cloudformation] to start or stop/delete the Amazon ECR or Amazon S3 plugin template.
 6.	The plugin templates are hosted in a centralized Amazon S3 bucket managed by AWS.
-7.	The solution also provisions an [Amazon ECS][ecs] cluster that runs the container images used by the plugin template, and the container images are hosted in [Amazon ECR][ecr].
+7.	The guidance also provisions an [Amazon ECS][ecs] cluster that runs the container images used by the plugin template, and the container images are hosted in [Amazon ECR][ecr].
 8.	The data transfer task information is stored in [Amazon DynamoDB][dynamodb].
 
-After deploying the solution, you can use [AWS WAF][waf] to protect CloudFront or AppSync.
+After deploying the guidance, you can use [AWS WAF][waf] to protect CloudFront or AppSync.
 
 >Note "Important"
-    If you deploy this solution in AWS (Beijing) Region operated by Beijing Sinnet Technology Co., Ltd. (Sinnet), or the AWS (Ningxia) Region operated by Ningxia Western Cloud Data Technology Co., Ltd. ( ), you are required to provide a domain with ICP Recordal before you can access the web console.
+    If you deploy this guidance in AWS (Beijing) Region operated by Beijing Sinnet Technology Co., Ltd. (Sinnet), or the AWS (Ningxia) Region operated by Ningxia Western Cloud Data Technology Co., Ltd. ( ), you are required to provide a domain with ICP Recordal before you can access the web console.
 
 
 The web console is a centralized place to create and manage all data transfer jobs. Each data type (for example, Amazon S3 or Amazon ECR) is a plugin for Data Transfer Hub, and is packaged as an AWS CloudFormation template hosted in an S3 bucket that AWS owns. When the you create a transfer task, an AWS Lambda function initiates the Amazon CloudFormation template, and state of each task is stored and displayed in the DynamoDB tables.
 
-As of this revision, the solution supports two data transfer plugins: an Amazon S3 plugin and an Amazon ECR plugin. 
+As of this revision, the guidance supports two data transfer plugins: an Amazon S3 plugin and an Amazon ECR plugin. 
 
 ## Amazon S3 plugin
 
@@ -98,12 +98,12 @@ buckets, makes comparisons among objects and determines which objects should be 
 ## Amazon ECR plugin
 
 ![ecr-architecture](assets/ecr-arch-global.png)
-*Figure 3: Data Transfer Hub Amazon ECR plugin architecture*
+*Figure 3: Data Transfer Hub - ECR PULL Method plugin architecture*
 
-The Amazon ECR plugin runs the following workflows:
+The Amazon ECR plugin PULL Mechganism runs the following workflows:
 
 1.	An EventBridge rule runs an AWS Step Functions workflow on a regular basis (by default, it runs daily).
-2.	Step Functions invokes AWS Lambda to retrieve the list of images from the source.
+2.	Step Functions workflow invokes AWS Lambda to retrieve the list of images from the source.
 3.	Lambda will either list all the repository content in the source Amazon ECR, or get the stored image list from System Manager Parameter Store.
 4.	The transfer task will run within Fargate in a maximum concurrency of 10. If a transfer task failed for some reason, it will automatically retry three times.
 5.	Each task uses [skopeo](https://github.com/containers/skopeo) to copy the images into the target ECR.
@@ -111,18 +111,17 @@ The Amazon ECR plugin runs the following workflows:
 
 ## Amazon ECR PUSH Method
 
-![ecr-push-mechanism-architecture](assets/DTH_Push_Method.png)
-*Figure 4: Data Transfer Hub Amazon ECR PUSH Method plugin architecture*
+![ecr-push-mechanism-architecture](assets/DTH_Push_Method.jpg)
+*Figure 4: Data Transfer Hub -  ECR PUSH Method architecture*
 
-The Amazon ECR PUSH Mechanism plugin runs the following workflows:
+The Amazon ECR PUSH Mechanism runs the following workflows:
 
-1.	Solution makes an API call to on-prem Jfrog Repository and list all user repos.
-2.	Solution makes a second call to Amazon ECR using credentials configured by AWS CLI and checks if list of on-prem repos exists in ECR, if not creates them.
-3.	Comes back to on-prem repo and tally all docker image tags in all repos.
+1.	guidance makes an API call to on-prem Jfrog Repository and list all user repos.
+2.	guidance makes a second call to Amazon ECR using credentials configured by AWS CLI and checks if list of on-prem repos exists in ECR, if not creates them.
+3.	Comes back to on-prem repo and tally all Docker image tags in all repos.
 4.	Checksum verification of tags in ECR, if tag exist in ECR and checksum matches, it is left alone.
-5.	Migrates all docker images in bulk to ECR.
-6.	Solution can be repeated.
-
+5.	Migrates all Docker images in bulk to ECR.
+6.	Above process can be repeated for other images
 
 [s3]:https://aws.amazon.com/s3/
 [cloudfront]:https://aws.amazon.com/cloudfront/
@@ -162,9 +161,9 @@ Average speed per Amazon EC2 instance: ~1GB/min Total Amazon EC2 instance hours:
 | Amazon SQS |	~2 request per ﬁle $0.40 per million requests |	$0.01 |
 | Data Transfer Out	| $0.09 per GB	| $92.16 |
 | Others (For example, CloudWatch, Secrets Manager, etc.) | | ~ $1 |
-| |	TOTAL |	~ $94.48 |
+| |	**TOTAL** |	**~ $94.48** |
 
-### Cost of an Amazon ECR transfer task
+### Cost of Amazon ECR transfer task
 
 For an Amazon ECR transfer task, the cost can vary based on network speed and total size of ECR images.
 Example 2: As of this revision, transfer 27 Amazon ECR images (~3 GB in total size) from AWS Ireland Region (eu-west-1) to AWS Beijing Region (cn-north-1). The total runtime is about 6 minutes.
@@ -176,22 +175,22 @@ Example 2: As of this revision, transfer 27 Amazon ECR images (~3 GB in total si
 | Fargate |	$0.04048 per vCPU per hour $0.004445 per GB per hour (0.5 vCPU 1GB Memory) | $0.015 (~ 2200s) |
 | Data Transfer Out	| $0.09 per GB | $0.27 |
 | Others (for example, CloudWatch, Secrets Manager, etc.) | Almost 0 |	$0 |
-| | TOTAL |	~ $0.287 |
+| | **TOTAL** |	**~ $0.287** |
 
 ## Prerequisites
 
-Please install the following dependencies on your local machine.
+Please install the following software components on your local machine.
 
-* nodejs 12+
-* npm 6+
-* Docker
+* [nodejs 12+](https://nodejs.org/en/download/)
+* [npm 6+](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+* [Docker](https://www.docker.com/)
 
 You need CDK bootstrap v4+ to deploy this application. To upgrade to latest CDK bootstrap version. Run
 ```
 cdk bootstrap --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess
 ```
 
->Note: Please make sure Docker is running on your local machine.
+>Note: Please make sure Docker daemon is running on your local machine.
 
 ## Deployment Steps via AWS CDK
 
