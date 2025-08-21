@@ -82,9 +82,8 @@ As of this revision, the guidance supports two data transfer plugins: an Amazon 
 The Amazon S3 plugin runs the following workflows:
 
 1.	A time-based Event Bridge rule triggers a AWS Lambda function on an hourly basis. 
-2.  AWS Lambda uses the launch template to launch a data comparison job (JobFinder) in an [Amazon Elastic Compute Cloud (Amazon EC2)][ec2].
-3. The job lists all the objects in the source and destination
-buckets, makes comparisons among objects and determines which objects should be transferred.
+2.  AWS Lambda uses the launch template to launch a data comparison job (JobFinder) in an [Amazon Elastic Compute Cloud (Amazon EC2)](https://aws.amazon.com/ec2/).
+3. The job lists all the objects in the source and destination buckets, makes comparisons among objects and determines which objects should be transferred.
 4.	Amazon EC2 sends a message for each object that will be transferred to [Amazon Simple Queue Service (Amazon SQS)][sqs]. Amazon S3 event messages can also be supported for more real-time data transfer; whenever there is object uploaded to source bucket, the event message is sent to the same Amazon SQS queue.
 5.	A JobWorker running in Amazon EC2 consumes the messages in SQS and transfers the object from the source bucket to the destination bucket. You can use an Auto Scaling group to control the number of EC2 instances to transfer the data based on business need.
 6.	A record with transfer status for each object is stored in Amazon DynamoDB. 
@@ -93,12 +92,12 @@ buckets, makes comparisons among objects and determines which objects should be 
 9.  When the JobWorker node identifies a large file (with a default threshold of 1 GB) for the first time, a Multipart Upload task running in Amazon EC2 is initiated. The corresponding UploadId is then conveyed to the AWS Step Functions, which invokes a scheduled recurring task. Every minute, AWS Step Functions verifies the successful transmission of the distributed shards associated with the UploadId across the entire cluster.
 10. If all shards have been transmitted successfully, Amazon EC2 invokes the CompleteMultipartUpload API in Amazon S3 to finalize the consolidation of the shards. Otherwise, any invalid shards are discarded.
 
->Note: If an object (or part of an object) transfer failed, the JobWorker releases the message in the queue, and the object is transferred again after the message is visible in the queue (default visibility timeout is set to 15 minutes). If the transfer failed five times, the message is sent to the dead letter queue and a notification alarm is initiated.
+>Note: If an object (or part of an object) transfer failed, the JobWorker releases the message in the queue, and the object is transferred again after the message is visible in the queue (default visibility timeout is set to *15 minutes*). If the transfer failed five times, the message is sent to the SQS dead letter queue and a notification alarm is initiated.
 
-## Amazon ECR plugin
+## Amazon ECR plugin - PULL Mechanism
 
 ![ecr-architecture](assets/ecr-arch-global.png)
-*Figure 3: Data Transfer Hub - ECR PULL Method plugin architecture*
+*Figure 3: Data Transfer Hub - ECR transfer plugin PULL Mechanism architecture*
 
 The Amazon ECR plugin PULL Mechanism runs the following workflows:
 
@@ -106,27 +105,27 @@ The Amazon ECR plugin PULL Mechanism runs the following workflows:
 2.	Step Functions workflow invokes AWS Lambda to retrieve the list of images from the source.
 3.	Lambda will either list all the repository content in the source Amazon ECR, or get the stored image list from System Manager Parameter Store.
 4.	The transfer task will run within Fargate in a maximum concurrency of 10. If a transfer task failed for some reason, it will automatically retry three times.
-5.	Each task uses [skopeo](https://github.com/containers/skopeo) to copy the images into the target ECR.
+5.	Each task uses [skopeo](https://github.com/containers/skopeo) utility to copy the images into the target ECR.
 6.	After the copy completes, the status (either success or fail) is logged into DynamoDB for tracking purpose.
 
-## Amazon ECR PUSH Method
+## Amazon ECR plugin - PUSH Method
 
 ![ecr-push-mechanism-architecture](assets/DTH_Push_Method.jpg)
-*Figure 4: Data Transfer Hub -  ECR PUSH Method architecture*
+*Figure 4: Data Transfer Hub - ECR transfer plugin PUSH Mechanism architecture*
 
-The Amazon ECR PUSH Mechanism runs the following workflows:
+The Amazon ECR PUSH Mechanism runs the following workflow:
 
-1.	guidance makes an API call to on-prem Jfrog Repository and list all user repos.
-2.	guidance makes a second call to Amazon ECR using credentials configured by AWS CLI and checks if list of on-prem repos exists in ECR, if not creates them.
-3.	Comes back to on-prem repo and tally all Docker image tags in all repos.
-4.	Checksum verification of tags in ECR, if tag exist in ECR and checksum matches, it is left alone.
-5.	Migrates all Docker images in bulk to ECR.
+1.	Code makes an API call to on-premise container image repository and list all user available repositories.
+2.	Code makes a second call to Amazon ECR using credentials configured in AWS CLI and checks if list of on-premise repos exists in ECR - if not, it creates them.
+3.	Code returns back to on-prem repo and tallies all Docker image tags in all repositories.
+4.	Code performs checksum verification of tags in ECR: if tag exists in ECR and checksum matches, it is left alone.
+5.	Code pushes all local Docker images in bulk to ECR.
 6.	Above process can be repeated for other images
 
 ## AWS Services in this guidance
 | **AWS Service** | **Role** | **Description** |
 |-----------------|----------|-----------------|
-|[Amazon S3](https://aws.amazon.com/s3/)|Persistent storage tier||
+|[Amazon S3](https://aws.amazon.com/s3/)|Persistent object storage tier||
 |[Amazon CloudFront](https://aws.amazon.com/cloudfront/)|Content delivery network (CDN) that speeds up the distribution of web content||
 |[Amazon AppSync](https://aws.amazon.com/appsync/)|Fully managed Serverless GraphQL API Service for Real-Time Data Queries||
 |[Amazon Cognito](https://aws.amazon.com/cognito/)|User sign-up, sign-in, access control, and brokered AWS service access||
@@ -164,7 +163,7 @@ Average speed per Amazon EC2 instance: ~1GB/min Total Amazon EC2 instance hours:
 | Amazon SQS |	~2 request per ﬁle $0.40 per million requests |	$0.01 |
 | Data Transfer Out	| $0.09 per GB	| $92.16 |
 | Others (For example, CloudWatch, Secrets Manager, etc.) | | ~ $1 |
-| |	**TOTAL** |	**~ $94.48** |
+| |	**TOTAL** |	**~$94.48** |
 
 ### Cost of Amazon ECR transfer task
 
@@ -178,7 +177,7 @@ Example 2: As of this revision, transfer 27 Amazon ECR images (~3 GB in total si
 | Fargate |	$0.04048 per vCPU per hour $0.004445 per GB per hour (0.5 vCPU 1GB Memory) | $0.015 (~ 2200s) |
 | Data Transfer Out	| $0.09 per GB | $0.27 |
 | Others (for example, CloudWatch, Secrets Manager, etc.) | Almost 0 |	$0 |
-| | **TOTAL** |	**~ $0.287** |
+| | **TOTAL** |	**~$0.287** |
 
 ## Prerequisites
 
