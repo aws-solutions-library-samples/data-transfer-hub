@@ -282,6 +282,10 @@ Yes. In this case, you will need to store the [AccessKeyID and SecretAccessKey](
 for Account B and C in the [Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html) 
 of Account A.
 
+## License
+
+This library is licensed under the MIT-0 License. See the [LICENSE](./LICENSE.txt) file.
+
 ## More Resources
 
 * [How to customize this Guidance and build your own distributable?](./docs/build-your-own-distributable.md)
