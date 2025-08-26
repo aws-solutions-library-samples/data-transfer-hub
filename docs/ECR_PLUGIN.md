@@ -28,7 +28,8 @@ This plugin uses [**skopeo**](https://github.com/containers/skopeo) as the tool 
 
 ## Architecture
 
-![ECR Plugin Architecture](ecr-plugin-architect.png)
+![ECR Plugin Architecture](./en-base/images/s3-arch-global.png)
+<!-- ![S3 Plugin Architecture](./en-base/images/s3-arch-global.png) -->
 
 EventBridge Rule to trigger Step functions to execute on a regular basis. (By default, daily)
 
