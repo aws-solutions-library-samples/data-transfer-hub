@@ -282,6 +282,13 @@ Yes. In this case, you will need to store the [AccessKeyID and SecretAccessKey](
 for Account B and C in the [Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html) 
 of Account A.
 
+## Authors
+
+- Asif Khan, Senior TAM, AWS
+- Vinit Kumar, Senior TAM, AWS
+- Daniel Zilberman, Senior Solutions Architect, AWS Tech Solutions
+- Neil West, Senior Solutions Architect, AWS Tech Solutions
+  
 ## License
 
 This library is licensed under the MIT-0 License. See the [LICENSE](./LICENSE.txt) file.
