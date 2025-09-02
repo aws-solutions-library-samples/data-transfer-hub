@@ -178,7 +178,7 @@ export const TASK_STATUS_MAP: any = {
   IN_PROGRESS: { name: "In Progress", src: STATUS_PROGRESS, class: "gray" },
   DONE: { name: "Completed", src: STATUS_DONE, class: "success" },
   STOPPED: { name: "Stopped", src: STATUS_PENDING, class: "gray" },
-  UNKNOWN: { name: "Unkonwn", src: STATUS_PENDING, class: "gray" },
+  UNKNOWN: { name: "Unknown", src: STATUS_PENDING, class: "gray" },
 };
 
 export interface ISouceType {
