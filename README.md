@@ -1,12 +1,12 @@
 # Data Transfer Hub for Amazon ECR and S3 on AWS
 
-_Note_: If you have already deployed this Guidance, refer to the [User Guide](docs/UserManual.md).
+_Note_: If you have already deployed this Guidance, please refer to the [User Guide](https://docs.aws.amazon.com/solutions/latest/data-transfer-hub/use-data-transfer-hub.html).
 
-Data Transfer Hub for Amazon ECR and S3 is a secure, reliable, scalable, and trackable solution that offers a unified user experience that 
+"Data Transfer Hub for Amazon ECR and S3" is a secure, reliable, scalable, and trackable solution that offers a unified user experience that 
 allows you to easily create and manage different types of data transfer tasks from different sources to 
 Amazon Web Services cloud-native services. You can launch this guidance and start to replicate data within a few minutes.
 
-With Data Transfer Hub, you can perform any of the following tasks:
+With Data Transfer Hub solution, you can perform any of the following tasks:
 - Transfer Amazon S3 objects between AWS China Regions and AWS Regions.
 - Transfer Amazon S3 objects between AWS GovCloud and AWS Regions.
 - Transfer data from other cloud providers’ object storage services (including Alibaba
@@ -15,7 +15,7 @@ Cloud OSS, Tencent COS, Qiniu Kodo, and S3 Compatible storage) to Amazon S3.
 - Transfer container images from public container registries (e.g., Docker Hub, Google
 gcr.io, Red Hat Quay.io) or from local development environment to Amazon ECR.
 
-You will be responsible for your compliance with all applicable laws in respect of your data transfer tasks.
+You will be responsible for compliance with all applicable laws in respect of your data transfer tasks.
 
 ## Features
 
@@ -94,10 +94,10 @@ The Amazon S3 plugin runs the following workflows:
 
 >Note: If an object (or part of an object) transfer failed, the JobWorker releases the message in the queue, and the object is transferred again after the message is visible in the queue (default visibility timeout is set to *15 minutes*). If the transfer failed five times, the message is sent to the SQS dead letter queue and a notification alarm is initiated.
 
-## Amazon ECR plugin - PULL Mechanism
+## Amazon ECR plugin - Pull Mechanism
 
 ![ecr-architecture](assets/ecr-arch-global.png)
-*Figure 3: Data Transfer Hub - ECR transfer plugin PULL Mechanism architecture*
+*Figure 3: Data Transfer Hub - ECR transfer plugin Pull Mechanism architecture*
 
 The Amazon ECR plugin PULL Mechanism runs the following workflows:
 
@@ -108,10 +108,10 @@ The Amazon ECR plugin PULL Mechanism runs the following workflows:
 5.	Each task uses [skopeo](https://github.com/containers/skopeo) utility to copy the images into the target ECR.
 6.	After the copy completes, the status (either success or fail) is logged into DynamoDB for tracking purpose.
 
-## Amazon ECR plugin - PUSH Method
+## Amazon ECR plugin - Push Method
 
 ![ecr-push-mechanism-architecture](assets/DTH_Push_Method.jpg)
-*Figure 4: Data Transfer Hub - ECR transfer plugin PUSH Mechanism architecture*
+*Figure 4: Data Transfer Hub - ECR transfer plugin Push Mechanism architecture*
 
 The Amazon ECR PUSH Mechanism runs the following workflow:
 
@@ -155,7 +155,7 @@ Total ﬁles: ~20,480
 
 Average speed per Amazon EC2 instance: ~1GB/min Total Amazon EC2 instance hours: ~17 hours
 
-| AWS service  | Dimensions | Cost [USD] |
+| AWS service  | Dimensions | Cost [USD]/month |
 | ----------- | ------------ | ------------ |
 | Amazon EC2 | $0.0084 per hour (t4g.micro) | $0.14 |
 |Amazon S3 |	~ 12 GET requests + 10 PUT request per ﬁle GET: $0.0004 per 1000 request PUT: $0.005 per 1000 request | $0.12 |
@@ -181,7 +181,7 @@ Example 2: As of this revision, transfer 27 Amazon ECR images (~3 GB in total si
 
 ## Prerequisites
 
-Please install the following software components on your local machine.
+Please install the following software components on your local machine before deployment of this guidance:
 
 * [nodejs 12+](https://nodejs.org/en/download/)
 * [npm 6+](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
@@ -237,7 +237,10 @@ An email containing the temporary password will be sent to the provided email. N
 ## User Manual
 
 Create your first data transfer task, For the complete user guide, refer to
-[User Guide](docs/UserManual.md) for more information.
+[User Guide](https://docs.aws.amazon.com/solutions/latest/data-transfer-hub/solution-overview.html) for more information.
+
+## Troubleshooting
+Please refer to the [Troubleshoting documentation](https://docs.aws.amazon.com/solutions/latest/data-transfer-hub/troubleshooting.html) for details of solution troubleshooting
 
 ## Uninstall the Guidance
 
@@ -246,23 +249,23 @@ You can uninstall the Data Transfer Hub Guidance from the AWS Management Console
 ### Using the AWS Management Console
 
 1.	Sign in to the AWS CloudFormation console.
-2.	On the Stacks page, select this Guidance’s installation stack.
+2.	On the `Stacks` page, select this Guidance’s installation stack.
 3.	Choose Delete.
 
 ### Using AWS Command Line Interface
 
-Determine whether the AWS Command Line Interface (AWS CLI) is available in your environment. For installation instructions, refer to [What Is the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html) in the AWS CLI User Guide. After conﬁrming that the AWS CLI is available, run the following command.
+Determine whether the AWS Command Line Interface (AWS CLI) is available in your environment. For installation instructions, refer to [What Is the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html) in the AWS CLI User Guide. After conﬁrming that the AWS CLI is available, run the following command:
 
 ```
 $ aws cloudformation delete-stack --stack-name <installation-stack-name>
 ```
  ### Deleting the Amazon S3 buckets
 
- This Guidance is conﬁgured to retain the Guidance-created Amazon S3 bucket (for deploying in an opt-in Region) if you decide to delete the AWS CloudFormation stack to prevent accidental data loss. After uninstalling the Guidance, you can manually delete this S3 bucket if you do not need to retain the data. Follow these steps to delete the Amazon S3 bucket.
+ This Guidance is conﬁgured to retain the guidance-created Amazon S3 bucket (for deploying in an opt-in Region) if you decide to delete the AWS CloudFormation stack to prevent accidental data loss. After uninstalling the guidance, you can manually delete this S3 bucket if you do not need to retain the data. Follow these steps to delete the Amazon S3 bucket.
 1.	Sign in to the Amazon S3 console.
 2.	Choose Buckets from the left navigation pane.
 3.	Locate the <stack-name> S3 buckets.
-4.	Select the S3 bucket and choose Delete.
+4.	Select the S3 bucket and choose `Delete`.
 
 To delete the S3 bucket using AWS CLI, run the following command:
 ```
