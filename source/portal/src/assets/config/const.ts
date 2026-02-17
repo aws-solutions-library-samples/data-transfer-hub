@@ -402,6 +402,7 @@ export const AWS_REGION_LIST = [
   { value: "ca-central-1", name: "Central" },
   { value: "ca-west-1 ", name: "Calgary" },
   { value: "eu-central-1", name: "Frankfurt" },
+  { value: "eusc-de-east-1", name: "AWS European Sovereign Cloud (Germany)" },
   { value: "eu-west-1", name: "Ireland" },
   { value: "eu-west-2", name: "London" },
   { value: "eu-south-1", name: "Milan" },
