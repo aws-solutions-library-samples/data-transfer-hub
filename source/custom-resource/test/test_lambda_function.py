@@ -5,13 +5,13 @@ import pytest
 import os
 import boto3
 import json
-from moto import mock_s3, mock_dynamodb, mock_cloudfront, mock_iam
+from moto import mock_aws
 
 
 @pytest.fixture
 def s3_client():
 
-    with mock_s3():
+    with mock_aws():
         region = os.environ.get("AWS_REGION")
 
         s3 = boto3.resource("s3", region_name=region)
@@ -24,7 +24,7 @@ def s3_client():
 @pytest.fixture
 def iam_client():
 
-    with mock_iam():
+    with mock_aws():
         region = os.environ.get("AWS_REGION")
 
         iam = boto3.client("iam", region_name=region)
@@ -53,7 +53,7 @@ def iam_client():
 @pytest.fixture
 def cloudfront_client():
 
-    with mock_cloudfront():
+    with mock_aws():
         region = os.environ.get("AWS_REGION")
 
         cloudfront = boto3.client("cloudfront", region_name=region)

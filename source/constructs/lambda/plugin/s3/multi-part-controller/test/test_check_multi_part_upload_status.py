@@ -4,7 +4,7 @@
 import pytest
 import os
 import boto3
-from moto import mock_dynamodb
+from moto import mock_aws
 
 
 part_info_1 = {
@@ -70,7 +70,7 @@ part_info_4 = {
 
 @pytest.fixture
 def ddb_client():
-    with mock_dynamodb():
+    with mock_aws():
         region = os.environ.get("AWS_REGION")
         ddb = boto3.resource("dynamodb", region_name=region)
         # Mock App Log Configuration Table

@@ -4,12 +4,12 @@
 import pytest
 import os
 import boto3
-from moto import mock_autoscaling, mock_ec2
+from moto import mock_aws
 
 
 @pytest.fixture
 def auto_scaling_client():
-    with mock_autoscaling():
+    with mock_aws():
         region = os.environ.get("AWS_REGION")
         launch_template_name = os.environ.get("LAUNCH_TEMPLATE_NAME")
         asg_name = os.environ.get("ASG_NAME")
@@ -30,7 +30,7 @@ def auto_scaling_client():
 
 @pytest.fixture
 def auto_scaling_client_2():
-    with mock_autoscaling():
+    with mock_aws():
         region = os.environ.get("AWS_REGION")
         launch_template_name = os.environ.get("LAUNCH_TEMPLATE_NAME")
         asg_name = os.environ.get("ASG_NAME")
@@ -51,7 +51,7 @@ def auto_scaling_client_2():
 
 @pytest.fixture
 def ec2_client():
-    with mock_ec2():
+    with mock_aws():
         region = os.environ.get("AWS_REGION")
         launch_template_name = os.environ.get("LAUNCH_TEMPLATE_NAME")
         client = boto3.client("ec2", region_name=region)

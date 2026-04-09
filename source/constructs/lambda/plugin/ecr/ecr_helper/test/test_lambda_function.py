@@ -4,12 +4,12 @@
 import pytest
 import os
 import boto3
-from moto import mock_ecr, mock_ssm
+from moto import mock_aws
 
 
 @pytest.fixture
 def ecr_client():
-    with mock_ecr():
+    with mock_aws():
         region = os.environ.get("AWS_REGION")
         ecr = boto3.client("ecr", region_name=region)
         # create a ecr repository 01
@@ -19,17 +19,17 @@ def ecr_client():
         # upload a image to above ecr repository
         ecr.put_image(
             repositoryName=repository_name,
-            imageManifest="test_01",
+            imageManifest='{"schemaVersion": 2, "mediaType": "application/vnd.docker.distribution.manifest.v2+json", "config": {"digest": "sha256:01"}}',
             imageTag="latest"
         )
         ecr.put_image(
             repositoryName=repository_name,
-            imageManifest="test_01",
+            imageManifest='{"schemaVersion": 2, "mediaType": "application/vnd.docker.distribution.manifest.v2+json", "config": {"digest": "sha256:01"}}',
             imageTag="v1.3.0"
         )
         ecr.put_image(
             repositoryName=repository_name,
-            imageManifest="test_02",
+            imageManifest='{"schemaVersion": 2, "mediaType": "application/vnd.docker.distribution.manifest.v2+json", "config": {"digest": "sha256:02"}}',
             imageTag="v1.2.0"
         )
 
@@ -40,17 +40,17 @@ def ecr_client():
         # upload a image to above ecr repository
         ecr.put_image(
             repositoryName=repository_name,
-            imageManifest="test_01",
+            imageManifest='{"schemaVersion": 2, "mediaType": "application/vnd.docker.distribution.manifest.v2+json", "config": {"digest": "sha256:01"}}',
             imageTag="latest"
         )
         ecr.put_image(
             repositoryName=repository_name,
-            imageManifest="test_02",
+            imageManifest='{"schemaVersion": 2, "mediaType": "application/vnd.docker.distribution.manifest.v2+json", "config": {"digest": "sha256:02"}}',
             imageTag="v2.3.0"
         )
         ecr.put_image(
             repositoryName=repository_name,
-            imageManifest="test_03",
+            imageManifest='{"schemaVersion": 2, "mediaType": "application/vnd.docker.distribution.manifest.v2+json", "config": {"digest": "sha256:03"}}',
             imageTag="v2.2.0"
         )
 
@@ -59,7 +59,7 @@ def ecr_client():
 
 @pytest.fixture
 def ssm_client():
-    with mock_ssm():
+    with mock_aws():
         region = os.environ.get("AWS_REGION")
         ssm = boto3.client("ssm", region_name=region)
         ssm.put_parameter(
@@ -190,7 +190,7 @@ def env_variables_04():
 
 @pytest.fixture
 def ssm_client_02():
-    with mock_ssm():
+    with mock_aws():
         region = os.environ.get("AWS_REGION")
         ssm = boto3.client("ssm", region_name=region)
         ssm.put_parameter(

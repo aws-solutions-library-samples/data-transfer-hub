@@ -4,8 +4,8 @@
 import pytest
 import os
 import boto3
-from moto import mock_logs
-from moto import mock_dynamodb
+from moto import mock_aws
+from moto import mock_aws
 
 task_info_1 = {
     "id": "0ff94440-331e-4678-a53c-768c6720db55",
@@ -87,7 +87,7 @@ task_info_1 = {
 
 @pytest.fixture
 def ddb_client():
-    with mock_dynamodb():
+    with mock_aws():
         region = os.environ.get("AWS_REGION")
         ddb = boto3.resource("dynamodb", region_name=region)
         # Mock App Log Configuration Table
@@ -116,7 +116,7 @@ def ddb_client():
 
 @pytest.fixture
 def logs_client():
-    with mock_logs():
+    with mock_aws():
         region = os.environ.get("AWS_REGION")
         client = boto3.client('logs', region_name=region)
 

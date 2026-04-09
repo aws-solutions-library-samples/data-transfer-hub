@@ -15,6 +15,7 @@ aws-exports.json
 *.js
 !jest.config.js
 *.d.ts
+!source/portal/src/react-app-env.d.ts
 node_modules
 
 # CDK asset staging directory
@@ -28,3 +29,10 @@ regional-s3-assets
 .build
 
 Config
+
+# coverage reports
+coverage-reports/
+
+# python cache
+__pycache__/
+*.pyc

@@ -417,6 +417,7 @@ export const AWS_REGION_LIST = [
   { value: "cn-northwest-1", name: "Ningxia" },
   { value: "us-gov-west-1", name: "US-Gov-West" },
   { value: "us-gov-east-1", name: "US-Gov-East" },
+  { value: "eusc-de-east-1", name: "European Sovereign Cloud (Germany)" },
 ];
 
 // https://help.aliyun.com/document_detail/40654.html

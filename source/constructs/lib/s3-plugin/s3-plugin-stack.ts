@@ -6,6 +6,7 @@ import {
   Aws,
   Fn,
   CfnParameter,
+  CfnCondition,
   CfnResource,
   Stack,
   StackProps,
@@ -77,7 +78,7 @@ export class DataTransferS3Stack extends Stack {
 
     const runType: RunType = this.node.tryGetContext("runType") || RunType.EC2;
 
-    const cliRelease = "1.4.0";
+    const cliRelease = "1.4.3";
 
     const srcType = new CfnParameter(this, "srcType", {
       description:
@@ -578,7 +579,23 @@ export class DataTransferS3Stack extends Stack {
     commonStack.sqsQueue.grantSendMessages(finderStack.finderRole);
     srcIBucket.grantRead(finderStack.finderRole);
     destIBucket.grantRead(finderStack.finderRole);
-    prefixListFileIBucket.grantRead(finderStack.finderRole);
+    const hasPrefixListBucket = new CfnCondition(this, 'HasPrefixListBucket', {
+      expression: Fn.conditionNot(Fn.conditionEquals(srcPrefixListBucket.valueAsString, ''))
+    });
+
+    const prefixListBucketPolicy = new iam.Policy(this, 'PrefixListBucketPolicy', {
+      statements: [
+        new iam.PolicyStatement({
+          actions: ['s3:GetObject*', 's3:GetBucket*', 's3:List*'],
+          resources: [
+            prefixListFileIBucket.bucketArn,
+            `${prefixListFileIBucket.bucketArn}/*`
+          ]
+        })
+      ]
+    });
+    finderStack.finderRole.attachInlinePolicy(prefixListBucketPolicy);
+    (prefixListBucketPolicy.node.defaultChild as CfnResource).cfnOptions.condition = hasPrefixListBucket;
     multipartStateMachine.multiPartControllerStateMachine.grantRead(
       finderStack.finderRole
     );
@@ -626,7 +643,7 @@ export class DataTransferS3Stack extends Stack {
         minCapacity: minCapacity?.valueAsNumber,
         desiredCapacity: desiredCapacity?.valueAsNumber,
         ec2LG: commonStack.workerLogGroup,
-        cliRelease: cliRelease
+        cliRelease: cliRelease,
       };
 
       const ec2Stack = new Ec2WorkerStack(this, "EC2WorkerStack", ec2Props);
@@ -636,6 +653,10 @@ export class DataTransferS3Stack extends Stack {
       commonStack.sqsQueue.grantSendMessages(ec2Stack.workerAsg.role);
       srcIBucket.grantRead(ec2Stack.workerAsg.role);
       destIBucket.grantReadWrite(ec2Stack.workerAsg.role);
+      ec2Stack.workerAsg.role.addToPrincipalPolicy(new iam.PolicyStatement({
+        actions: ['s3:PutObjectAcl'],
+        resources: [destIBucket.bucketArn, `${destIBucket.bucketArn}/*`]
+      }));
       multipartStateMachine.multiPartControllerStateMachine.grantStartExecution(
         ec2Stack.workerAsg.role
       );

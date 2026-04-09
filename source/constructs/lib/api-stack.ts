@@ -22,7 +22,7 @@ import {
   aws_kms as kms
 } from 'aws-cdk-lib';
 
-import * as appsync from "@aws-cdk/aws-appsync-alpha";
+import * as appsync from "aws-cdk-lib/aws-appsync";
 
  import * as path from 'path';
  import * as cfnSate from './cfn-step-functions';
@@ -49,9 +49,9 @@ import * as appsync from "@aws-cdk/aws-appsync-alpha";
      super(scope, id);
  
      // Can define custom bucket to hold the plugin url. Default to aws-gcr-solutions
-     const templateBucket = process.env.TEMPLATE_OUTPUT_BUCKET || 'aws-gcr-solutions'
+     const templateBucket = process.env.TEMPLATE_OUTPUT_BUCKET || 'solutions-reference'
      const solutionName = process.env.SOLUTION_TRADEMARKEDNAME || 'data-transfer-hub'
-     const solutionVersion = process.env.VERSION || 'v1.0.0'
+     const solutionVersion = process.env.VERSION || 'latest'
  
      const PLUGIN_TEMPLATE_S3EC2 = `https://${templateBucket}.s3.amazonaws.com/${solutionName}/${solutionVersion}/DataTransferS3Stack.template`;
      const PLUGIN_TEMPLATE_ECR = `https://${templateBucket}.s3.amazonaws.com/${solutionName}/${solutionVersion}/DataTransferECRStack.template`;

@@ -9,6 +9,7 @@ Amazon Web Services cloud-native services. You can launch this guidance and star
 With Data Transfer Hub solution, you can perform any of the following tasks:
 - Transfer Amazon S3 objects between AWS China Regions and AWS Regions.
 - Transfer Amazon S3 objects between AWS GovCloud and AWS Regions.
+- Transfer Amazon S3 objects to AWS European Sovereign Cloud (Germany) Region.
 - Transfer data from other cloud providers’ object storage services (including Alibaba
 Cloud OSS, Tencent COS, Qiniu Kodo, and S3 Compatible storage) to Amazon S3.
 - Transfer Amazon ECR images between AWS China Regions and AWS Regions.
@@ -215,8 +216,10 @@ The output assets will be located in `source/portal/build` directory.
 cd ../constructs
 npm install 
 npm run build
+export TEMPLATE_OUTPUT_BUCKET=<your bucket> #Upload the CloudFormation templates e.g. DataTransferS3Stack.template to this bucket 
+export VERSION=latest
 npx cdk synth
-npx cdk deploy --parameters AdminEmail=<your-email-address>
+npx cdk deploy --parameters AdminEmail=<your-email-address> <stack e.g. DataTransferHub-cognito>
 ```
 
 The only parameter you should specify is the default user's email address. It will serve as the username when login into the web portal.

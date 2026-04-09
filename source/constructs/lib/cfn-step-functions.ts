@@ -103,6 +103,7 @@ export class CloudFormationStateMachine extends Construct {
             "autoscaling:DescribeScalingActivities",
             "autoscaling:PutScalingPolicy",
             "autoscaling:DeletePolicy",
+            "autoscaling:DescribePolicies",
           ],
           resources: [`*`]
         }),
@@ -149,6 +150,8 @@ export class CloudFormationStateMachine extends Construct {
             "s3:PutBucketNotification",
             "s3:GetBucketNotification",
             "s3:GetObject",
+            "s3:ListBucket",
+            "s3:GetBucketLocation",
           ],
           resources: [`*`]
         }),

@@ -4,11 +4,11 @@
 import pytest
 import os
 import boto3
-from moto import mock_stepfunctions
+from moto import mock_aws
 
 @pytest.fixture
 def sfn_client():
-    with mock_stepfunctions():
+    with mock_aws():
         region = os.environ.get("AWS_REGION")
         client = boto3.client('stepfunctions', region_name=region)
 

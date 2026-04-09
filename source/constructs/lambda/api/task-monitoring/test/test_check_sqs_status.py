@@ -5,12 +5,12 @@ import pytest
 import os
 import json
 import boto3
-from moto import mock_dynamodb, mock_sqs, mock_cloudformation, mock_sts, mock_stepfunctions
+from moto import mock_aws
 
 
 @pytest.fixture
 def cfn_client():
-    with mock_cloudformation():
+    with mock_aws():
         region = os.environ.get("AWS_REGION")
         client = boto3.client("cloudformation", region_name=region)
         client.create_stack(
@@ -22,14 +22,14 @@ def cfn_client():
 
 @pytest.fixture
 def sts_client():
-    with mock_sts():
+    with mock_aws():
         boto3.client("sts", region_name=os.environ.get("AWS_REGION"))
         yield
 
 
 @pytest.fixture
 def ddb_client():
-    with mock_dynamodb():
+    with mock_aws():
         task_info_1 = {
             "id": "0ff94440-331e-4678-a53c-768c6720db55",
             "createdAt": "2022-07-23T14:49:11.524Z",
@@ -143,7 +143,7 @@ def ddb_client():
 
 @pytest.fixture
 def sqs_client():
-    with mock_sqs():
+    with mock_aws():
         region = os.environ.get("AWS_REGION")
         sqs = boto3.resource("sqs", region_name=region)
         # Mock App Log Configuration Table
@@ -154,7 +154,7 @@ def sqs_client():
 
 @pytest.fixture
 def sfn_client():
-    with mock_stepfunctions():
+    with mock_aws():
         region = os.environ.get("AWS_REGION")
         sf_client = boto3.client('stepfunctions', region_name=region)
 

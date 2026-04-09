@@ -125,6 +125,9 @@ export class PortalStack extends Construct {
         }, {
           id: 'AwsSolutions-CFR4',
           reason: 'CloudFront automatically sets the security policy to TLSv1 when the distribution uses the CloudFront domain name'
+        }, {
+          id: 'AwsSolutions-CFR7',
+          reason: 'OAI is managed by @aws-solutions-constructs/aws-cloudfront-s3 construct'
         }
       ],
     );

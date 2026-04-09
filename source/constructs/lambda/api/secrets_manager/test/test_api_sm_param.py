@@ -4,13 +4,13 @@
 import pytest
 import os
 import boto3
-from moto import mock_secretsmanager
+from moto import mock_aws
 
 
 @pytest.fixture
 def secret_manager_client():
 
-    with mock_secretsmanager():
+    with mock_aws():
         region = os.environ.get("AWS_REGION")
 
         client = boto3.client("secretsmanager", region_name=region)

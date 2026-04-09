@@ -4,7 +4,7 @@
 import pytest
 import os
 import boto3
-from moto import mock_dynamodb, mock_autoscaling, mock_ec2, mock_cloudformation
+from moto import mock_aws
 
 task_info_1 = {
     "id": "0ff94440-331e-4678-a53c-768c6720db55",
@@ -86,7 +86,7 @@ task_info_1 = {
 
 @pytest.fixture
 def cfn_client():
-    with mock_cloudformation():
+    with mock_aws():
         region = os.environ.get("AWS_REGION")
         client = boto3.client("cloudformation", region_name=region)
         client.create_stack(
@@ -98,7 +98,7 @@ def cfn_client():
 
 @pytest.fixture
 def ddb_client():
-    with mock_dynamodb():
+    with mock_aws():
         region = os.environ.get("AWS_REGION")
         ddb = boto3.resource("dynamodb", region_name=region)
         # Mock App Log Configuration Table

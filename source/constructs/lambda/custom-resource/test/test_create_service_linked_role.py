@@ -4,13 +4,13 @@
 import pytest
 import os
 import boto3
-from moto import mock_iam
+from moto import mock_aws
 
 
 @pytest.fixture
 def iam_client():
 
-    with mock_iam():
+    with mock_aws():
         region = os.environ.get("AWS_REGION")
 
         iam = boto3.client("iam", region_name=region)
