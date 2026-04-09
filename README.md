@@ -213,11 +213,13 @@ The output assets will be located in `source/portal/build` directory.
 >Note: Please make sure Docker is running.
 
 ```
-cd ../constructs
+cd source/constructs
 npm install 
 npm run build
 export TEMPLATE_OUTPUT_BUCKET=<your bucket> #Upload the CloudFormation templates e.g. DataTransferS3Stack.template to this bucket 
 export VERSION=latest
+export DTH_CLI_URL=https://github.com/aws-solutions-library-samples/data-transfer-hub-cli/releases/download/ #PUBLIC URL ../v1.4.3/dthcli_1.4.3_linux_arm64.tar.gz
+export DTH_CLI_VERSION=1.4.3
 npx cdk synth
 npx cdk deploy --parameters AdminEmail=<your-email-address> <stack e.g. DataTransferHub-cognito>
 ```

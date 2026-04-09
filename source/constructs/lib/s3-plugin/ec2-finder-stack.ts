@@ -33,6 +33,7 @@ export interface Ec2FinderProps {
   readonly vpc: ec2.IVpc;
   readonly ec2SubnetIds: string[];
   readonly cliRelease: string;
+  readonly dthCliUrl?: string;
   readonly ec2CronExpression: string;
   readonly ec2Memory: string;
 }
@@ -230,7 +231,7 @@ export class Ec2FinderStack extends Construct {
       "/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/home/ec2-user/cw_agent_config.json -s",
 
       // Get CLI from solution assets
-      `curl -LO "${cliAssetDomain}/data-transfer-hub-cli/v${props.cliRelease}/dthcli_${props.cliRelease}_linux_arm64.tar.gz"`,
+      `curl -LO "${props.dthCliUrl ? `${props.dthCliUrl}v${props.cliRelease}/dthcli_${props.cliRelease}_linux_arm64.tar.gz` : `${cliAssetDomain}/data-transfer-hub-cli/v${props.cliRelease}/dthcli_${props.cliRelease}_linux_arm64.tar.gz`}"`,
       `tar zxvf dthcli_${props.cliRelease}_linux_arm64.tar.gz`,
 
       // Prepare the environment variables

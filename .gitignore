@@ -36,3 +36,5 @@ coverage-reports/
 # python cache
 __pycache__/
 *.pyc
+
+notes.md

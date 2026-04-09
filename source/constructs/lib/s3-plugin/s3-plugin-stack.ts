@@ -78,7 +78,8 @@ export class DataTransferS3Stack extends Stack {
 
     const runType: RunType = this.node.tryGetContext("runType") || RunType.EC2;
 
-    const cliRelease = "1.4.3";
+    const cliRelease = process.env.DTH_CLI_VERSION || "1.4.0";
+    const dthCliUrl = process.env.DTH_CLI_URL;
 
     const srcType = new CfnParameter(this, "srcType", {
       description:
@@ -571,6 +572,7 @@ export class DataTransferS3Stack extends Stack {
       vpc: vpc,
       ec2SubnetIds: ec2Subnets.valueAsList,
       cliRelease: cliRelease,
+      dthCliUrl: dthCliUrl,
       ec2CronExpression: ec2CronExpression.valueAsString,
       ec2Memory: finderEc2Memory.valueAsString
     };
@@ -644,6 +646,7 @@ export class DataTransferS3Stack extends Stack {
         desiredCapacity: desiredCapacity?.valueAsNumber,
         ec2LG: commonStack.workerLogGroup,
         cliRelease: cliRelease,
+        dthCliUrl: dthCliUrl,
       };
 
       const ec2Stack = new Ec2WorkerStack(this, "EC2WorkerStack", ec2Props);
