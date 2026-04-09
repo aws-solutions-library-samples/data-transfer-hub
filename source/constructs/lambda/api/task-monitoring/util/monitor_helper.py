@@ -135,7 +135,7 @@ class FinderMonitorHelper(MonitorHelper):
                 "total_object_count": int | -1
             }
         """
-        stream_result = {}
+        stream_result = {"status": "IN_PROGRESS"}
 
         if self._finder_log_group_name == "" or self._finder_log_group_name is None:
             # This task is not a S3 transfer task, break the step function.
