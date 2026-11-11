@@ -40,7 +40,7 @@ export class MultiPartStateMachine extends Construct {
       this,
       "CheckMultiPartUploadStatusFn",
       {
-        runtime: lambda.Runtime.PYTHON_3_9,
+        runtime: lambda.Runtime.PYTHON_3_13,
         code: lambda.AssetCode.fromAsset(
           path.join(__dirname, "../../lambda/plugin/s3/multi-part-controller")
         ),
@@ -66,7 +66,7 @@ export class MultiPartStateMachine extends Construct {
       this,
       "MultiPartUploadResultFn",
       {
-        runtime: lambda.Runtime.PYTHON_3_9,
+        runtime: lambda.Runtime.PYTHON_3_13,
         code: lambda.AssetCode.fromAsset(
           path.join(__dirname, "../../lambda/plugin/s3/multi-part-controller")
         ),

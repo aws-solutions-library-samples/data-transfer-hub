@@ -72,7 +72,7 @@ export class MonitorStateMachine extends Construct {
         ])
 
         const checkFinderJobStatusFn = new lambda.Function(this, 'CheckFinderJobStatusFn', {
-            runtime: lambda.Runtime.PYTHON_3_9,
+            runtime: lambda.Runtime.PYTHON_3_13,
             code: lambda.AssetCode.fromAsset(path.join(__dirname, '../lambda/api/task-monitoring')),
             handler: 'check_finder_job_status.lambda_handler',
             environment: {
@@ -137,7 +137,7 @@ export class MonitorStateMachine extends Construct {
         ])
 
         const checkSqsStatusFn = new lambda.Function(this, 'CheckSqsStatusFn', {
-            runtime: lambda.Runtime.PYTHON_3_9,
+            runtime: lambda.Runtime.PYTHON_3_13,
             code: lambda.AssetCode.fromAsset(path.join(__dirname, '../lambda/api/task-monitoring')),
             handler: 'check_sqs_status.lambda_handler',
             environment: {
@@ -192,7 +192,7 @@ export class MonitorStateMachine extends Construct {
         ])
 
         const checkTransferCompleteFn = new lambda.Function(this, 'CheckTransferCompleteFn', {
-            runtime: lambda.Runtime.PYTHON_3_9,
+            runtime: lambda.Runtime.PYTHON_3_13,
             code: lambda.AssetCode.fromAsset(path.join(__dirname, '../lambda/api/task-monitoring')),
             handler: 'check_transfer_complete.lambda_handler',
             environment: {
@@ -247,7 +247,7 @@ export class MonitorStateMachine extends Construct {
         ])
 
         const changeAsgSizeFn = new lambda.Function(this, 'ChangeAsgSizeFn', {
-            runtime: lambda.Runtime.PYTHON_3_9,
+            runtime: lambda.Runtime.PYTHON_3_13,
             code: lambda.AssetCode.fromAsset(path.join(__dirname, '../lambda/api/task-monitoring')),
             handler: 'change_asg_size.lambda_handler',
             environment: {
@@ -302,7 +302,7 @@ export class MonitorStateMachine extends Construct {
         ])
 
         const checkIsOneTimeTransferFn = new lambda.Function(this, 'CheckIsOneTimeTransferFn', {
-            runtime: lambda.Runtime.PYTHON_3_9,
+            runtime: lambda.Runtime.PYTHON_3_13,
             code: lambda.AssetCode.fromAsset(path.join(__dirname, '../lambda/api/task-monitoring')),
             handler: 'check_is_onetime_transfer_task.lambda_handler',
             environment: {
@@ -380,7 +380,7 @@ export class MonitorStateMachine extends Construct {
             }
         ])
         const sendSnsNotificationFn = new lambda.Function(this, 'SendSnsNotificationFn', {
-            runtime: lambda.Runtime.PYTHON_3_9,
+            runtime: lambda.Runtime.PYTHON_3_13,
             code: lambda.AssetCode.fromAsset(path.join(__dirname, '../lambda/api/task-monitoring')),
             handler: 'send_sns_notification.lambda_handler',
             environment: {

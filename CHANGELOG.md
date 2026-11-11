@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.8] - 2026-11-11
+
+### Changed
+- Lambda functions from `python3.9` to `python3.13`, ahead of the `python3.9` deprecation.
+- `aws-cdk` / `aws-cdk-lib` from `2.1117.0` / `2.248.0` to `2.1148.0` / `2.276.0`.
+- `uuid` from `9.0.0` to `14.0.3` and dropped the now-redundant `@types/uuid` stub.
+
+### Security
+- Resolved 150 of 206 `npm audit` findings in `source/portal` (4 critical, 26 high) via `npm audit fix`.
+- Resolved 3 high-severity `npm audit` findings in `source/constructs` via the `aws-cdk-lib` bump above.
+
+## [2.6.7] - 2026-04-09
+
+EUSC support, dependency upgrades, bug fixes
+
 ## [2.6.6] - 2024-11-22
 
 ### Security

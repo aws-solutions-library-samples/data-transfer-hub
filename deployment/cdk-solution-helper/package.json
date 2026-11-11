@@ -1,7 +1,7 @@
 {
   "name": "cdk-solution-helper",
   "description": "cdk solution helper",
-  "version": "2.6.7",
+  "version": "2.6.8",
   "license": "Apache-2.0",
   "author": {
     "name": "Amazon Web Services",

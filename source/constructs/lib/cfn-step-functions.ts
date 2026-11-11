@@ -34,7 +34,7 @@ export class CloudFormationStateMachine extends Construct {
     super(scope, id);
 
     const createTaskCfnFn = new lambda.Function(this, 'CreateTaskCfnFn', {
-      runtime: lambda.Runtime.PYTHON_3_9,
+      runtime: lambda.Runtime.PYTHON_3_13,
       code: lambda.AssetCode.fromAsset(path.join(__dirname, '../lambda/cdk'), {
       }),
       handler: 'lambda_function.create_task_cfn',
@@ -55,7 +55,7 @@ export class CloudFormationStateMachine extends Construct {
     ])
 
     const stopTaskCfnFn = new lambda.Function(this, 'StopTaskCfnFn', {
-      runtime: lambda.Runtime.PYTHON_3_9,
+      runtime: lambda.Runtime.PYTHON_3_13,
       code: lambda.AssetCode.fromAsset(path.join(__dirname, '../lambda/cdk'), {
       }),
       handler: 'lambda_function.stop_task_cfn',
@@ -390,7 +390,7 @@ export class CloudFormationStateMachine extends Construct {
     ])
 
     const queryTaskCfnFn = new lambda.Function(this, 'QueryTaskCfnFn', {
-      runtime: lambda.Runtime.PYTHON_3_9,
+      runtime: lambda.Runtime.PYTHON_3_13,
       code: lambda.AssetCode.fromAsset(path.join(__dirname, '../lambda/cdk'), {
       }),
       handler: 'lambda_function.query_task_cfn',
@@ -436,7 +436,7 @@ export class CloudFormationStateMachine extends Construct {
     }))
 
     const startMonitorFlowFn = new lambda.Function(this, 'StartMonitorFlowFn', {
-      runtime: lambda.Runtime.PYTHON_3_9,
+      runtime: lambda.Runtime.PYTHON_3_13,
       code: lambda.AssetCode.fromAsset(path.join(__dirname, '../lambda/api/task-monitoring')),
       handler: 'start_monitor_flow.lambda_handler',
       environment: {

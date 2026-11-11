@@ -58,7 +58,7 @@ import * as appsync from "aws-cdk-lib/aws-appsync";
  
      // This Lambda is to create the AppSync Service Linked Role
      const appSyncServiceLinkRoleFn = new lambda.Function(this, 'AppSyncServiceLinkRoleFn', {
-       runtime: lambda.Runtime.PYTHON_3_9,
+       runtime: lambda.Runtime.PYTHON_3_13,
        code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/custom-resource')),
        handler: 'create_service_linked_role.lambda_handler',
        timeout: Duration.seconds(60),
@@ -397,7 +397,7 @@ import * as appsync from "aws-cdk-lib/aws-appsync";
     const taskHandlerFn = new lambda.Function(this, 'TaskHandlerFn', {
       code: lambda.AssetCode.fromAsset(path.join(__dirname, '../lambda/api/task'), {
       }),
-      runtime: lambda.Runtime.PYTHON_3_9,
+      runtime: lambda.Runtime.PYTHON_3_13,
       description: 'Data Transfer Hub - API V1',
       handler: 'api_task_v2.lambda_handler',
       timeout: Duration.seconds(60),
@@ -460,7 +460,7 @@ import * as appsync from "aws-cdk-lib/aws-appsync";
        code: lambda.AssetCode.fromAsset(path.join(__dirname, '../lambda/api/secrets_manager'), {
          exclude: ['cdk/*', 'layer/*']
        }),
-       runtime: lambda.Runtime.PYTHON_3_9,
+       runtime: lambda.Runtime.PYTHON_3_13,
        handler: 'api_sm_param.lambda_handler',
        timeout: Duration.seconds(60),
        memorySize: 128,
@@ -518,7 +518,7 @@ import * as appsync from "aws-cdk-lib/aws-appsync";
      const taskV2HandlerFn = new lambda.Function(this, 'TaskV2HandlerFn', {
        code: lambda.AssetCode.fromAsset(path.join(__dirname, '../lambda/api/task'), {
        }),
-       runtime: lambda.Runtime.PYTHON_3_9,
+       runtime: lambda.Runtime.PYTHON_3_13,
        handler: 'api_task_v2.lambda_handler',
        timeout: Duration.seconds(60),
        memorySize: 128,
@@ -577,7 +577,7 @@ import * as appsync from "aws-cdk-lib/aws-appsync";
     const cwlMonitorHandlerFn = new lambda.Function(this, 'CWLMonitorHandlerFn', {
       code: lambda.AssetCode.fromAsset(path.join(__dirname, '../lambda/api/cwl'), {
       }),
-      runtime: lambda.Runtime.PYTHON_3_9,
+      runtime: lambda.Runtime.PYTHON_3_13,
       handler: 'lambda_function.lambda_handler',
       timeout: Duration.seconds(60),
       memorySize: 128,

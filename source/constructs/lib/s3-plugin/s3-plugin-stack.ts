@@ -696,7 +696,7 @@ export class DataTransferS3Stack extends Stack {
       "s3NotificationHelperFn",
       {
         description: `${Aws.STACK_NAME} - Create S3 Notification Processor`,
-        runtime: lambda.Runtime.PYTHON_3_9,
+        runtime: lambda.Runtime.PYTHON_3_13,
         handler: "lambda_function.lambda_handler",
         code: lambda.Code.fromAsset(
           path.join(__dirname, "../../lambda/plugin/s3/custom-resource")

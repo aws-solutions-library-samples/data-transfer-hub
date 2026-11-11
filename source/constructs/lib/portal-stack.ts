@@ -236,7 +236,7 @@ function handler(event) {
 
     const customResourceFunction = new lambda.Function(this, 'CustomHandler', {
       description: `${Aws.STACK_NAME} - - Custom resource`,
-      runtime: lambda.Runtime.PYTHON_3_9,
+      runtime: lambda.Runtime.PYTHON_3_13,
       handler: 'lambda_function.lambda_handler',
       timeout: Duration.seconds(30),
       memorySize: 512,

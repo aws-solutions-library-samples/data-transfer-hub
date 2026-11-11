@@ -258,7 +258,7 @@ export class DataTransferECRStack extends Stack {
     const listImagesLambda = new lambda.Function(this, 'ListImagesFunction', {
       code: lambda.AssetCode.fromAsset(path.join(__dirname, '../../lambda/plugin/ecr/ecr_helper'), {
       }),
-      runtime: lambda.Runtime.PYTHON_3_9,
+      runtime: lambda.Runtime.PYTHON_3_13,
       handler: 'lambda_function.lambda_handler',
       memorySize: 256,
       timeout: Duration.minutes(15),
@@ -748,7 +748,7 @@ export class DataTransferECRStack extends Stack {
     })
 
     const checkExecutionLambda = new lambda.Function(this, 'CheckExecutionFunction', {
-      runtime: lambda.Runtime.PYTHON_3_9,
+      runtime: lambda.Runtime.PYTHON_3_13,
       handler: 'lambda_function.lambda_handler',
       code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda/plugin/ecr/sfn_helper')),
       memorySize: 256,

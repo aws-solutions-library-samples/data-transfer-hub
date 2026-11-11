@@ -295,7 +295,7 @@ export class Ec2FinderStack extends Construct {
 
     // Create the Finder Launch Lambda
     const finderLaunchFn = new lambda.Function(this, "FinderLaunchHelper", {
-      runtime: lambda.Runtime.PYTHON_3_9,
+      runtime: lambda.Runtime.PYTHON_3_13,
       handler: "lambda_function.lambda_handler",
       code: lambda.Code.fromAsset(
         path.join(__dirname, "../../lambda/plugin/s3/asg-helper")
